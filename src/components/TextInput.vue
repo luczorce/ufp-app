@@ -3,7 +3,7 @@
     <p>{{label}}</p>
     <input type="text" 
            v-bind:name="name" 
-           v-bind:value="value" 
+           v-model="value" 
            v-bind:disabled="disabled" 
            v-bind:class="{'disabled-but-bright': disabledButBright}">
   </label>

@@ -19,25 +19,19 @@
     <section>
       <h2>Interests</h2>
 
-      <label>
-        <p>Hobbies</p>
-        <textarea name="hobbies"></textarea>
-      </label>
-
-      <label>
-        <p>Causes</p>
-        <textarea name="causes"></textarea>
-      </label>
+      <id-textarea label="hobbies" name="hobbies" />
+      <id-textarea label="causes" name="causes" />
     </section>
   </form>
 </template>
 
 <script>
 import IdInput from '@/components/TextInput.vue';
+import IdTextarea from '@/components/TextAreaInput.vue';
 
 export default {
   name: 'IdentityForm',
-  components: { IdInput }
+  components: { IdInput, IdTextarea }
 }
 </script>
 
