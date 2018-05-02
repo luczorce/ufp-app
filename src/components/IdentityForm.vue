@@ -3,34 +3,17 @@
     <section>
       <h2>Names</h2>
       
-      <label>
-        <p>first name</p>
-        <input type="text" name="firstName" value="Bana" disabled class="disabled-but-bright">
-      </label>
+      <id-input label="first name" name="firstName" value="Bana" disabled-state="pop"></id-input>
 
-      <label>
-        <p>last name</p>
-        <input type="text" name="lastName" value="Bofana" disabled class="disabled-but-bright">
-      </label>
+      <id-input label="last name" name="lastName" value="Bofana" disabled-state="pop"></id-input>
     </section>
 
     <section>
       <h2>Location</h2>
 
-      <label>
-        <p>City</p>
-        <input type="text" name="city">
-      </label>
-
-      <label>
-        <p>State/Provence</p>
-        <input type="text" name="state">
-      </label>
-
-      <label>
-        <p>Country</p>
-        <input type="text" name="country">
-      </label>
+      <id-input label="city" name="city"></id-input>
+      <id-input label="state/provence" name="state"></id-input>
+      <id-input label="country" name="country"></id-input>
     </section>
 
     <section>
@@ -50,8 +33,11 @@
 </template>
 
 <script>
+import IdInput from '@/components/TextInput.vue';
+
 export default {
-  name: 'IdentityForm'
+  name: 'IdentityForm',
+  components: { IdInput }
 }
 </script>
 
