@@ -31,10 +31,11 @@ function init() {
   let store = localStorage.getItem(LOCAL_STORAGE_KEY);
 
   if (store) {
-    identityData = Object.assign({}, defaultData);
+    identityData = JSON.parse(store);
     return true;
   } else {
-    this.update();
+    identityData = Object.assign({}, defaultData);
+    this.update(identityData);
     return false;
   }
 }
@@ -43,11 +44,6 @@ function updateStorage(updatedIdentityData) {
   if (!testLocalStorage()) return false;
   
   let clone = Object.assign({}, updatedIdentityData);
-  // TODO these should be coming from the uPort profile
-  // won't need to delete them once they are
-  delete clone.firstName;
-  delete clone.lastName;
-
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(clone));
 }
 
