@@ -20,7 +20,7 @@
       }
     },
     created() {
-      let disabled = this.disabledState;
+      let disabled = this.disabledState || '';
 
       if (disabled === 'pop') {
         this.disabled = true;
