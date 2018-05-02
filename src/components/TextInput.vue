@@ -33,7 +33,8 @@
 </script>
 
 <style>
-  .disabled-but-bright {
-    background: tomato;
+  input:disabled.disabled-but-bright {
+    color: black;
+    background: var(--white1);
   }
 </style>
