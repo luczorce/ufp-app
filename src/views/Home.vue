@@ -1,16 +1,16 @@
 <template>
   <div class="page home-page">
-
+    <identity-form />
   </div>
 </template>
 
 <script>
-// import HelloWorld from '@/components/HelloWorld.vue'
+import IdentityForm from '@/components/IdentityForm.vue'
 
 export default {
   name: 'home',
   components: {
-    // HelloWorld
+    IdentityForm
   }
 }
 </script>

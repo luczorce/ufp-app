@@ -1,0 +1,33 @@
+label {
+  margin: 0 0 1em;
+  display: block;
+}
+
+label p {
+  margin: 0 0 0.5em;
+}
+
+input,
+textarea {
+  font-size: 1em;
+  border: 1px var(--black4) solid;
+  padding: 10px 5px;
+  display: block;
+  width: 100%;
+  background: var(--white1);
+  transition: all 0.2s ease-in-out;
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--white3);
+  outline: none;
+  background: var(--white);
+}
+
+input:disabled,
+textarea:disabled {
+  color: var(--black3);
+  border: 1px var(--white1) solid;
+  background: var(--white-enuff);
+}

@@ -1,4 +1,15 @@
 :root {
   --os-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --mono-font: 'IBM Plex Mono', monospace;
+
+  --black: black;
+  --black1: #1f1f1f;
+  --black2: #363636;
+  --black3: #4c4c4c;
+  --black4: #7c7c7c;
+  --white3: #cecece;
+  --white2: #dbdbdb;
+  --white1: #f1f1f1;
+  --white-enuff: #fbfbfb;
+  --white: white;
 }
