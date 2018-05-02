@@ -1,7 +1,10 @@
+import defaultData from '@/mock/test-user-1.js';
 const LOCAL_STORAGE_KEY = 'ufp-individual-data';
+let identityData;
 
 const LocalStorageService = {
   clear: clearLocalStorage,
+  get: getIdentityInformation,
   init: init,
   update: updateStorage
 };
@@ -19,12 +22,16 @@ function clearLocalStorage() {
   }
 }
 
+function getIdentityInformation() {
+  return identityData;
+}
+
 function init() {
   if (!testLocalStorage()) return;
   let store = localStorage.getItem(LOCAL_STORAGE_KEY);
 
   if (store) {
-    // TODO update this storage here with what's in storage
+    identityData = Object.assign({}, defaultData);
     return true;
   } else {
     this.update();
@@ -32,23 +39,16 @@ function init() {
   }
 }
 
-function updateStorage() {
+function updateStorage(updatedIdentityData) {
   if (!testLocalStorage()) return false;
   
-  let store = [];
-  
-  // TODO what gets updated?
-  // this.locations.forEach(loc => {
-  //   let clone = Object.assign({}, loc);
-  //   delete clone.name;
-  //   delete clone.description;
-  //   delete clone.optional;
-  //   delete clone.secret;
+  let clone = Object.assign({}, updatedIdentityData);
+  // TODO these should be coming from the uPort profile
+  // won't need to delete them once they are
+  delete clone.firstName;
+  delete clone.lastName;
 
-  //   store.push(clone);
-  // });
-
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(store));
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(clone));
 }
 
 //////
