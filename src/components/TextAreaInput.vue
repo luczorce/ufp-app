@@ -17,8 +17,8 @@
       }
     },
     created() {
-      let disabled = this.disabledState;
-        this.disabled = (disabled.toLowerCase() === 'true');
+      let disabled = this.disabledState || '';
+      this.disabled = (disabled.toLowerCase() === 'true');
     }
   }
 </script>
