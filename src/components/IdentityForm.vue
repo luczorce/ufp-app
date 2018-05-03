@@ -1,42 +1,65 @@
 <template>
   <div class="identity-container">
     <div class="form-container">
-      <form v-on:submit.prevent="updateStorage()" class="identity-form">
+      <form class="identity-form" ref="identityForm">
         <section class="id-section">
           <h2>Names</h2>
           
-          <id-input label="first name" name="firstName" v-bind:value="firstName" disabled-state="pop" />
-          <id-input label="last name" name="lastName" v-bind:value="lastName" disabled-state="pop" />
+          <id-input label="first name" name="firstName" v-bind:value="firstName" disabled bright-disabled />
+          <id-input label="last name" name="lastName" v-bind:value="lastName" disabled bright-disabled />
         </section>
 
         <section class="id-section">
           <h2>Location</h2>
 
-          <id-input label="city" name="city" :value="city" v-on:changed="(data) => {handleUpdateValue('city', data)}" />
-          <id-input label="state/provence" name="state" :value="state" v-on:changed="(data) => {handleUpdateValue('state', data)}" />
-          <id-input label="country" name="country" :value="country" v-on:changed="(data) => {handleUpdateValue('country', data)}" />
+          <id-input label="city" name="city" :value="city" 
+                    v-on:changed="(data) => {handleUpdateValue('city', data)}" 
+                    v-bind:disabled="viewingDataPrivacy"
+                    bright-disabled />
+          <id-input label="state/provence" name="state" :value="state" 
+                    v-on:changed="(data) => {handleUpdateValue('state', data)}" 
+                    v-bind:disabled="viewingDataPrivacy"
+                    bright-disabled />
+          <id-input label="country" name="country" :value="country" 
+                    v-on:changed="(data) => {handleUpdateValue('country', data)}" 
+                    v-bind:disabled="viewingDataPrivacy"
+                    bright-disabled />
         </section>
 
         <section class="id-section">
           <h2>Interests</h2>
 
-          <id-textarea label="hobbies" name="hobbies" :value="hobbies" v-on:changed="(data) => {handleUpdateValue('hobbies', data)}" />
-          <id-textarea label="causes" name="causes" :value="causes" v-on:changed="(data) => {handleUpdateValue('causes', data)}" />
+          <id-textarea label="hobbies" name="hobbies" :value="hobbies" v-on:changed="(data) => {handleUpdateValue('hobbies', data)}" v-bind:disabled="viewingDataPrivacy" />
+          <id-textarea label="causes" name="causes" :value="causes" v-on:changed="(data) => {handleUpdateValue('causes', data)}" v-bind:disabled="viewingDataPrivacy" />
         </section>
-
       </form>
     </div>
 
     <div class="identity-footer">
       <div>
-        <button type="submit" v-bind:disabled="!allowUpdate">save personal data locally</button>
+        <button type="button" class="id-button" 
+                v-on:click="changeView(0)"
+                v-bind:class="{'active': (currentView === 0)}">view data</button>
       </div>
 
       <div>
-        <button type="button" v-bind:disabled="allowUpdate">public data</button>
-        <button type="button" v-bind:disabled="allowUpdate">private data</button>
+        <button type="button" class="id-button" 
+                v-bind:disabled="!allowUpdate"
+                v-on:click="updateStorage">
+                  save personal data locally</button>
+        <button type="button" v-bind:disabled="allowUpdate" 
+                class="id-button"
+                v-on:click="changeView(1)"
+                v-bind:class="{'active': (currentView === 1)}">
+                  public data
+                </button>
+        <button type="button" v-bind:disabled="allowUpdate" 
+                class="id-button"
+                v-on:click="changeView(2)"
+                v-bind:class="{'active': (currentView === 2)}">
+                  private data
+                </button>
       </div>
-
     </div>
   </div>
 </template>
@@ -61,6 +84,9 @@
         country: null,
         hobbies: null,
         causes: null,
+
+        viewingDataPrivacy: false,
+        currentView: 0,
 
         trackedData: {
           city: {changed: false, value: null},
@@ -87,6 +113,10 @@
       this.causes = data.causes.value.join(', ');
     },
     methods: {
+      changeView(viewIndex) {
+        this.currentView = viewIndex;
+        this.viewingDataPrivacy = (viewIndex > 0);
+      },
       getUpdatedValueData() {
         let updates = Object.assign({}, data);
 
@@ -95,20 +125,6 @@
             updates[key].value = this.trackedData[key].value;
           }
         });
-
-        if (!updates.hobbies.value.length) {
-          updates.hobbies.value = [];
-        } else {
-          updates.hobbies.value = updates.hobbies.value.split(',');
-          updates.hobbies.value.forEach(trimArrayValues);
-        }
-
-        if (!updates.causes.value.length) {
-          updates.causes.value = [];
-        } else {
-          updates.causes.value = updates.causes.value.split(',');
-          updates.causes.forEach(trimArrayValues);
-        }
 
         return updates;
       },
@@ -147,12 +163,6 @@
       },
     }
   }
-
-  //////
-
-  function trimArrayValues(val, index, array) {
-    array[index] = val.trim();
-  }
 </script>
 
 <style>
@@ -176,5 +186,25 @@
   .id-section {
     margin: 0 auto 2em;
     padding: 0 15px;
+  }
+
+  .id-button {
+    font-size: 1em;
+    font-family: var(--mono-font);
+    background: var(--white);
+    margin-right: 5px;
+    padding: 5px;
+    border: 1px var(--black2) solid;
+    transition: var(--generic-transition);
+  }
+
+  .id-button:focus {
+    background: var(--white1);
+    border-color: var(--pop3);
+    outline: none;
+  }
+
+  .id-button.active {
+    background: var(--pop1);
   }
 </style>

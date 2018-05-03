@@ -12,4 +12,10 @@
   --white1: #f1f1f1;
   --white-enuff: #fbfbfb;
   --white: white;
+
+  --pop1: #C2F442;
+  --pop2: #ABDB32;
+  --pop3: #94C122;
+
+  --generic-transition: all 0.2 ease-in-out;
 }

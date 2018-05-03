@@ -11,29 +11,45 @@
 <script>
   export default {
     name: 'IdTextarea',
-    props: ['label', 'name', 'value', 'disabledState'],
+    props: {
+      label: String,
+      name: String,
+      value: String,
+      disabled: Boolean
+    },
     data: function() {
       return {
-        disabled: false,
         inpuValue: null
       }
     },
     created() {
-      let disabled = this.disabledState || '';
-      this.disabled = (disabled.toLowerCase() === 'true');
-
       this.inputValue = this.value;
     },
     methods: {
       handleChange() {
+        let value;
+
+        if (this.inputValue.length) {
+          value = this.inputValue.split(',');
+          value.forEach(trimArrayValues);
+        } else {
+          value = [];
+        }
+          
         let updates = {
           changed: (this.value !== this.inputValue),
-          value: this.inputValue
+          value: value
         };
 
         this.$emit('changed', updates);
       }
     }
+  }
+
+  //////
+
+  function trimArrayValues(val, index, array) {
+    array[index] = val.trim();
   }
 </script>
 

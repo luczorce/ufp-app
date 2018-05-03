@@ -5,7 +5,7 @@
            v-bind:name="name" 
            v-model="inputValue" 
            v-bind:disabled="disabled" 
-           v-bind:class="{'disabled-but-bright': disabledButBright}"
+           v-bind:class="{'disabled-but-bright': brightDisabled}"
            v-on:input="handleChange">
   </label>
 </template>
@@ -13,24 +13,19 @@
 <script>
   export default {
     name: 'IdInput',
-    props: ['label', 'name', 'value', 'disabledState', 'changed'],
+    props: {
+      label: String,
+      name: String,
+      value: String,
+      disabled: Boolean,
+      brightDisabled: Boolean
+    },
     data: function() {
       return {
-        disabled: false,
-        disabledButBright: false,
         inputValue: null
       }
     },
     created() {
-      let disabled = this.disabledState || '';
-
-      if (disabled === 'pop') {
-        this.disabled = true;
-        this.disabledButBright = true;
-      } else {
-        this.disabled = (disabled.toLowerCase() === 'true');
-      }
-
       this.inputValue = this.value;
     },
     methods: {
