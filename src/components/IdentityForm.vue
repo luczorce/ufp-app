@@ -39,6 +39,11 @@
       <button type="button" class="id-button" 
               v-on:click="changeView(0)"
               v-bind:class="{'active': (currentView === 0)}">view data</button>
+      <button type="button" class="id-button destructive" 
+              v-bind:disabled="!allowUpdate"
+              v-show="allowUpdate"
+              v-on:click="revertData">
+                revert changes</button>
       <button type="button" class="id-button" 
               v-bind:disabled="!allowUpdate"
               v-show="allowUpdate"
@@ -98,18 +103,7 @@
       };
     },
     created() {
-      localStorage.init();
-      data = localStorage.get();
-
-      // TODO these should come from the uPort profile
-      this.firstName = data.firstName;
-      this.lastName = data.lastName;
-
-      this.city = data.city.value;
-      this.state = data.state.value;
-      this.country = data.country.value;
-      this.hobbies = data.hobbies.value.join(', ');
-      this.causes = data.causes.value.join(', ');
+      this.initDataFromStorage();
     },
     methods: {
       changeView(viewIndex) {
@@ -134,6 +128,34 @@
         };
         this.shouldAllowUpdateValue();
       },
+      initDataFromStorage() {
+        localStorage.init();
+        data = localStorage.get();
+        // TODO these should come from the uPort profile
+        this.firstName = data.firstName;
+        this.lastName = data.lastName;
+
+        this.city = data.city.value;
+        this.state = data.state.value;
+        this.country = data.country.value;
+        this.hobbies = data.hobbies.value.join(', ');
+        this.causes = data.causes.value.join(', ');
+      },
+      resetComponentData() {
+        this.$emit('resetOriginalValue');
+        this.trackedData = {
+          city: {changed: false, value: null},
+          state: {changed: false, value: null},
+          country: {changed: false, value: null},
+          hobbies: {changed: false, value: null},
+          causes: {changed: false, value: null}
+        };
+        this.shouldAllowUpdateValue();
+      },
+      revertData() {
+        this.initDataFromStorage();
+        this.resetComponentData();
+      },
       shouldAllowUpdateValue() {
         let shouldAllow = false;
 
@@ -148,17 +170,15 @@
       updateStorage() {
         let updates = this.getUpdatedValueData();
         localStorage.update(updates);
-        localStorage.init();
-        data = localStorage.get();
         
-        this.trackedData = {
-          city: {changed: false, value: null},
-          state: {changed: false, value: null},
-          country: {changed: false, value: null},
-          hobbies: {changed: false, value: null},
-          causes: {changed: false, value: null}
-        };
-        this.shouldAllowUpdateValue();
+        // NOTE when in dount, setTimeout D:
+        // this seemed to be almost a race condition... 
+        // localstorage doesn't use callbacks/promises...
+        this.initDataFromStorage();
+        let that = this;
+        window.setTimeout(() => {
+          that.resetComponentData();
+        }, 0);
       },
     }
   }

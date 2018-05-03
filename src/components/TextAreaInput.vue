@@ -19,11 +19,13 @@
     },
     data: function() {
       return {
-        inpuValue: null
+        originalValue: null,
+        inputValue: null
       }
     },
     created() {
-      this.inputValue = this.value;
+      this.setOriginalValue();
+      this.$parent.$on('resetOriginalValue', this.setOriginalValue);
     },
     methods: {
       handleChange() {
@@ -37,11 +39,15 @@
         }
           
         let updates = {
-          changed: (this.value !== this.inputValue),
+          changed: (this.inputValue !== this.originalValue),
           value: value
         };
 
         this.$emit('changed', updates);
+      },
+      setOriginalValue() {
+        this.inputValue = this.value;
+        this.originalValue = this.value;
       }
     }
   }
