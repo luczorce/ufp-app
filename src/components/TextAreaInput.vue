@@ -2,8 +2,9 @@
   <label>
     <p>{{label}}</p>
     <textarea v-bind:name="name" 
-              v-model="value"
-              v-bind:disabled="disabled"></textarea>
+              v-model="inputValue"
+              v-bind:disabled="disabled"
+              v-on:input="handleChange"></textarea>
   </label>
 </template>
 
@@ -14,11 +15,24 @@
     data: function() {
       return {
         disabled: false,
+        inpuValue: null
       }
     },
     created() {
       let disabled = this.disabledState || '';
       this.disabled = (disabled.toLowerCase() === 'true');
+
+      this.inputValue = this.value;
+    },
+    methods: {
+      handleChange() {
+        let updates = {
+          changed: (this.value !== this.inputValue),
+          value: this.inputValue
+        };
+
+        this.$emit('changed', updates);
+      }
     }
   }
 </script>
