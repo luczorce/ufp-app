@@ -3,9 +3,9 @@ export default {
   firstName: 'Bana',
   lastName: 'Bofana',
   
-  city: '',
-  state: '',
-  country: '',
-  hobbies: '',
-  causes: ''
+  city: { private: true, value: '' },
+  state: { private: true, value: '' },
+  country: { private: true, value: '' },
+  hobbies: { private: true, value: [] },
+  causes: { private: true, value: [] }
 }
