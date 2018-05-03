@@ -36,30 +36,29 @@
     </div>
 
     <div class="identity-footer">
-      <div>
-        <button type="button" class="id-button" 
-                v-on:click="changeView(0)"
-                v-bind:class="{'active': (currentView === 0)}">view data</button>
-      </div>
+      <button type="button" class="id-button" 
+              v-on:click="changeView(0)"
+              v-bind:class="{'active': (currentView === 0)}">view data</button>
+      <button type="button" class="id-button" 
+              v-bind:disabled="!allowUpdate"
+              v-show="allowUpdate"
+              v-on:click="updateStorage">
+                save personal data locally</button>
 
-      <div>
-        <button type="button" class="id-button" 
-                v-bind:disabled="!allowUpdate"
-                v-on:click="updateStorage">
-                  save personal data locally</button>
-        <button type="button" v-bind:disabled="allowUpdate" 
-                class="id-button"
-                v-on:click="changeView(1)"
-                v-bind:class="{'active': (currentView === 1)}">
-                  public data
-                </button>
-        <button type="button" v-bind:disabled="allowUpdate" 
-                class="id-button"
-                v-on:click="changeView(2)"
-                v-bind:class="{'active': (currentView === 2)}">
-                  private data
-                </button>
-      </div>
+      <button type="button" v-bind:disabled="allowUpdate" 
+              v-show="!allowUpdate"
+              class="id-button"
+              v-on:click="changeView(1)"
+              v-bind:class="{'active': (currentView === 1)}">
+                public data
+              </button>
+      <button type="button" v-bind:disabled="allowUpdate" 
+              v-show="!allowUpdate"
+              class="id-button"
+              v-on:click="changeView(2)"
+              v-bind:class="{'active': (currentView === 2)}">
+                private data
+              </button>
     </div>
   </div>
 </template>
@@ -174,13 +173,16 @@
   .form-container {
     flex: 0 1 auto;
     overflow-y: auto;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 70px);
   }
 
   .identity-footer {
     border-top: 1px var(--black4) solid;
-    padding: 20px 10px 10px;
-    height: 100px;
+    padding: 10px;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
   }
 
   .id-section {
@@ -192,7 +194,6 @@
     font-size: 1em;
     font-family: var(--mono-font);
     background: var(--white);
-    margin-right: 5px;
     padding: 5px;
     border: 1px var(--black2) solid;
     transition: var(--generic-transition);
