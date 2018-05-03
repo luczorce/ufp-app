@@ -42,117 +42,117 @@
 </template>
 
 <script>
-import IdInput from '@/components/TextInput.vue';
-import IdTextarea from '@/components/TextAreaInput.vue';
-import localStorage from '@/services/local-storage.js';
+  import IdInput from '@/components/TextInput.vue';
+  import IdTextarea from '@/components/TextAreaInput.vue';
+  import localStorage from '@/services/local-storage.js';
 
-let data;
-let keys = [ 'city', 'state', 'country', 'hobbies', 'causes' ];
+  let data;
+  let keys = [ 'city', 'state', 'country', 'hobbies', 'causes' ];
 
-export default {
-  name: 'IdentityForm',
-  components: { IdInput, IdTextarea },
-  data: function() {
-    return {
-      firstName: null,
-      lastName: null,
-      city: null,
-      state: null,
-      country: null,
-      hobbies: null,
-      causes: null,
+  export default {
+    name: 'IdentityForm',
+    components: { IdInput, IdTextarea },
+    data: function() {
+      return {
+        firstName: null,
+        lastName: null,
+        city: null,
+        state: null,
+        country: null,
+        hobbies: null,
+        causes: null,
 
-      trackedData: {
-        city: {changed: false, value: null},
-        state: {changed: false, value: null},
-        country: {changed: false, value: null},
-        hobbies: {changed: false, value: null},
-        causes: {changed: false, value: null}
-      },
-      allowUpdate: false
-    };
-  },
-  created() {
-    localStorage.init();
-    data = localStorage.get();
-
-    // TODO these should come from the uPort profile
-    this.firstName = data.firstName;
-    this.lastName = data.lastName;
-
-    this.city = data.city.value;
-    this.state = data.state.value;
-    this.country = data.country.value;
-    this.hobbies = data.hobbies.value.join(', ');
-    this.causes = data.causes.value.join(', ');
-  },
-  methods: {
-    getUpdatedValueData() {
-      let updates = Object.assign({}, data);
-
-      keys.forEach((key) => {
-        if (this.trackedData[key].changed) {
-          updates[key].value = this.trackedData[key].value;
-        }
-      });
-
-      if (!updates.hobbies.value.length) {
-        updates.hobbies.value = [];
-      } else {
-        updates.hobbies.value = updates.hobbies.value.split(',');
-        updates.hobbies.value.forEach(trimArrayValues);
-      }
-
-      if (!updates.causes.value.length) {
-        updates.causes.value = [];
-      } else {
-        updates.causes.value = updates.causes.value.split(',');
-        updates.causes.forEach(trimArrayValues);
-      }
-
-      return updates;
-    },
-    handleUpdateValue(which, data) {
-      this.trackedData[which] = {
-        changed: data.changed,
-        value: data.value
+        trackedData: {
+          city: {changed: false, value: null},
+          state: {changed: false, value: null},
+          country: {changed: false, value: null},
+          hobbies: {changed: false, value: null},
+          causes: {changed: false, value: null}
+        },
+        allowUpdate: false
       };
-      this.shouldAllowUpdateValue();
     },
-    shouldAllowUpdateValue() {
-      let shouldAllow = false;
-
-      keys.forEach((key) => {
-        if (this.trackedData[key].changed) {
-          shouldAllow = true;
-        }
-      });
-
-      this.allowUpdate = shouldAllow;
-    },
-    updateStorage() {
-      let updates = this.getUpdatedValueData();
-      localStorage.update(updates);
+    created() {
       localStorage.init();
       data = localStorage.get();
-      
-      this.trackedData = {
-        city: {changed: false, value: null},
-        state: {changed: false, value: null},
-        country: {changed: false, value: null},
-        hobbies: {changed: false, value: null},
-        causes: {changed: false, value: null}
-      };
-      this.shouldAllowUpdateValue();
+
+      // TODO these should come from the uPort profile
+      this.firstName = data.firstName;
+      this.lastName = data.lastName;
+
+      this.city = data.city.value;
+      this.state = data.state.value;
+      this.country = data.country.value;
+      this.hobbies = data.hobbies.value.join(', ');
+      this.causes = data.causes.value.join(', ');
     },
+    methods: {
+      getUpdatedValueData() {
+        let updates = Object.assign({}, data);
+
+        keys.forEach((key) => {
+          if (this.trackedData[key].changed) {
+            updates[key].value = this.trackedData[key].value;
+          }
+        });
+
+        if (!updates.hobbies.value.length) {
+          updates.hobbies.value = [];
+        } else {
+          updates.hobbies.value = updates.hobbies.value.split(',');
+          updates.hobbies.value.forEach(trimArrayValues);
+        }
+
+        if (!updates.causes.value.length) {
+          updates.causes.value = [];
+        } else {
+          updates.causes.value = updates.causes.value.split(',');
+          updates.causes.forEach(trimArrayValues);
+        }
+
+        return updates;
+      },
+      handleUpdateValue(which, data) {
+        this.trackedData[which] = {
+          changed: data.changed,
+          value: data.value
+        };
+        this.shouldAllowUpdateValue();
+      },
+      shouldAllowUpdateValue() {
+        let shouldAllow = false;
+
+        keys.forEach((key) => {
+          if (this.trackedData[key].changed) {
+            shouldAllow = true;
+          }
+        });
+
+        this.allowUpdate = shouldAllow;
+      },
+      updateStorage() {
+        let updates = this.getUpdatedValueData();
+        localStorage.update(updates);
+        localStorage.init();
+        data = localStorage.get();
+        
+        this.trackedData = {
+          city: {changed: false, value: null},
+          state: {changed: false, value: null},
+          country: {changed: false, value: null},
+          hobbies: {changed: false, value: null},
+          causes: {changed: false, value: null}
+        };
+        this.shouldAllowUpdateValue();
+      },
+    }
   }
-}
 
-//////
+  //////
 
-function trimArrayValues(val, index, array) {
-  array[index] = val.trim();
-}
+  function trimArrayValues(val, index, array) {
+    array[index] = val.trim();
+  }
 </script>
 
 <style>
