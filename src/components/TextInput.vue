@@ -1,6 +1,6 @@
 <template>
   <label>
-    <p class="form-label">
+    <p class="form-label" v-on:click="handlePrivacyUpdate">
       <span>{{label}}</span>
       <privacy-label v-bind:private="privateSetting" v-show="state > 0" />
     </p>
@@ -56,6 +56,8 @@
         this.$emit('changed', updates);
       },
       handlePrivacyUpdate() {
+        // do not update privacy updates if we are editing
+        if (this.state === 0) return;
         this.$emit('privacy-change', !this.privateSetting);
       },
       setOriginalValue() {
