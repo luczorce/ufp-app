@@ -5,6 +5,8 @@
   
     <span v-if="!private" class="private-icon">&#9900;</span>
     <span v-if="!private">public</span>
+
+    <span v-if="permanent"> | permanemt</span>
   </span>
 </template>
 
@@ -12,7 +14,8 @@
   export default {
     name: 'PrivacyLabel',
     props: {
-      private: Boolean
+      private: Boolean,
+      permanent: Boolean
     }
   }
 </script>

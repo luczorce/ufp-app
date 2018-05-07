@@ -1,6 +1,6 @@
 <template>
   <label>
-    <p class="form-label">
+    <p class="form-label" v-on:click="handlePrivacyUpdate">
       <span>{{label}}</span>
       <privacy-label v-bind:private="privateSetting" v-show="state > 0" />
     </p>
@@ -11,7 +11,7 @@
               v-on:input="handleChange"
               v-show="state === 0"></textarea>
 
-    <ul class="textarea--mimic" v-show="state > 0" v-bind:class="{'public-content': (!privateSetting), 'private-content': (privateSetting)}">
+    <ul class="textarea--mimic" v-show="state > 0" v-bind:class="{'public-content': (!privateSetting), 'private-content': (privateSetting)}" v-on:click="handlePrivacyUpdate">
       <li v-for="item of getValuesAsArray()">{{item}}</li>
     </ul>
   </label>
@@ -64,6 +64,11 @@
         };
 
         this.$emit('changed', updates);
+      },
+      handlePrivacyUpdate() {
+        // do not update privacy updates if we are editing
+        if (this.state === 0) return;
+        this.$emit('privacy-change', !this.privateSetting);
       },
       setOriginalValue() {
         this.inputValue = this.value;
