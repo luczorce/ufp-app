@@ -1,12 +1,13 @@
 <template>
-  <div class="identity-container">
+  <div class="identity-container"
+       v-bind:class="{'private-mode': currentView === 2, 'public-mode': currentView === 1}">
     <div class="form-container">
       <form class="identity-form" ref="identityForm">
         <section class="id-section">
           <h2>Names</h2>
           
-          <id-input label="first name" name="firstName" v-bind:value="firstName" disabled bright-disabled />
-          <id-input label="last name" name="lastName" v-bind:value="lastName" disabled bright-disabled />
+          <id-input label="first name" name="firstName" v-bind:value="firstName" disabled bright-disabled v-bind:state="currentView" />
+          <id-input label="last name" name="lastName" v-bind:value="lastName" disabled bright-disabled v-bind:state="currentView"/>
         </section>
 
         <section class="id-section">
@@ -15,22 +16,25 @@
           <id-input label="city" name="city" :value="city" 
                     v-on:changed="(data) => {handleUpdateValue('city', data)}" 
                     v-bind:disabled="viewingDataPrivacy"
-                    bright-disabled />
+                    bright-disabled 
+                    v-bind:state="currentView"/>
           <id-input label="state/provence" name="state" :value="state" 
                     v-on:changed="(data) => {handleUpdateValue('state', data)}" 
                     v-bind:disabled="viewingDataPrivacy"
-                    bright-disabled />
+                    bright-disabled 
+                    v-bind:state="currentView"/>
           <id-input label="country" name="country" :value="country" 
                     v-on:changed="(data) => {handleUpdateValue('country', data)}" 
                     v-bind:disabled="viewingDataPrivacy"
-                    bright-disabled />
+                    bright-disabled 
+                    v-bind:state="currentView"/>
         </section>
 
         <section class="id-section">
           <h2>Interests</h2>
 
-          <id-textarea label="hobbies" name="hobbies" :value="hobbies" v-on:changed="(data) => {handleUpdateValue('hobbies', data)}" v-bind:disabled="viewingDataPrivacy" />
-          <id-textarea label="causes" name="causes" :value="causes" v-on:changed="(data) => {handleUpdateValue('causes', data)}" v-bind:disabled="viewingDataPrivacy" />
+          <id-textarea label="hobbies" name="hobbies" :value="hobbies" v-on:changed="(data) => {handleUpdateValue('hobbies', data)}" v-bind:disabled="viewingDataPrivacy" v-bind:state="currentView" />
+          <id-textarea label="causes" name="causes" :value="causes" v-on:changed="(data) => {handleUpdateValue('causes', data)}" v-bind:disabled="viewingDataPrivacy" v-bind:state="currentView" />
         </section>
       </form>
     </div>
@@ -188,6 +192,14 @@
   .identity-container {
     display: flex;
     flex-direction: column;
+    transition: background-color 0.2s ease-in-out, color 0.2s 0.25s ease-in-out;
+  }
+
+  .identity-container.public-mode {}
+
+  .identity-container.private-mode {
+    background: var(--black2);
+    color: var(--white2);
   }
 
   .form-container {

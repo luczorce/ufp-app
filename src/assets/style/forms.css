@@ -31,3 +31,21 @@ textarea:disabled {
   border: 1px var(--white1) solid;
   background: var(--white-enuff);
 }
+
+.input-text--mimic,
+.textarea--mimic {
+  border: 1px var(--white3) solid;
+  padding: 10px 5px;
+  background: var(--white-enuff);
+  transition: var(--generic-transition);
+  color: var(--black);
+}
+
+.input-text--mimic:empty,
+.textarea--mimic:empty {
+  padding: 19px 5px;
+}
+
+.textarea--mimic {
+  padding-left: 25px;
+}

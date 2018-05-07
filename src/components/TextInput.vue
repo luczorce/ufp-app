@@ -1,12 +1,16 @@
 <template>
   <label>
     <p>{{label}}</p>
+    
     <input type="text" 
            v-bind:name="name" 
            v-model="inputValue" 
            v-bind:disabled="disabled" 
            v-bind:class="{'disabled-but-bright': brightDisabled}"
-           v-on:input="handleChange">
+           v-on:input="handleChange"
+           v-show="state === 0">
+
+    <p class="input-text--mimic" v-show="state > 0">{{inputValue}}</p>
   </label>
 </template>
 
@@ -17,6 +21,7 @@
       label: String,
       name: String,
       value: String,
+      state: Number,
       disabled: Boolean,
       brightDisabled: Boolean
     },
@@ -49,7 +54,7 @@
 
 <style>
   input:disabled.disabled-but-bright {
-    color: black;
+    color: var(--black);
     background: var(--white1);
   }
 </style>

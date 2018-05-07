@@ -4,9 +4,10 @@ This is a component for a text `input` element, wrapped within a label. The foll
 
 | prop | type | description |
 | :--- | :--- | :--- |
-| `label` | String | what will the label read?|
-| `name` | String | `name` attribute for the input|
-| `value` | String | `value` attribute for the input|
+| `label` | String | what will the label read? |
+| `name` | String | `name` attribute for the input |
+| `value` | String | `value` attribute for the input |
+| `state` | Number | whether or not we are in edit mode(0) or viewing privacy mode, public (1) or private (2) |
 | `disabled` | Boolean | setting for disabled state |
 | `bright-disabled` | Boolean | rendering for disabled state |
 
