@@ -1,46 +1,63 @@
 <template>
   <label>
-    <p>{{label}}</p>
+    <p class="form-label">
+      <span>{{label}}</span>
+      <privacy-label v-bind:private="privateSetting" v-show="state > 0" />
+    </p>
+    
     <input type="text" 
            v-bind:name="name" 
            v-model="inputValue" 
            v-bind:disabled="disabled" 
-           v-bind:class="{'disabled-but-bright': disabledButBright}"
-           v-on:input="handleChange">
+           v-bind:class="{'disabled-but-bright': brightDisabled}"
+           v-on:input="handleChange"
+           v-show="state === 0">
+
+    <p class="input-text--mimic"
+       v-show="state > 0"
+       v-bind:class="{'public-content': (!privateSetting), 'private-content': (privateSetting)}">{{inputValue}}</p>
   </label>
 </template>
 
 <script>
+  import PrivacyLabel from '@/components/PrivacyLabel.vue';
+
   export default {
     name: 'IdInput',
-    props: ['label', 'name', 'value', 'disabledState', 'changed'],
+    props: {
+      label: String,
+      name: String,
+      value: String,
+      state: Number,
+      disabled: Boolean,
+      brightDisabled: Boolean,
+      private: Boolean
+    },
     data: function() {
       return {
-        disabled: false,
-        disabledButBright: false,
-        inputValue: null
+        originalValue: null,
+        inputValue: null,
+        privateSetting: null
       }
     },
+    components: { PrivacyLabel },
     created() {
-      let disabled = this.disabledState || '';
-
-      if (disabled === 'pop') {
-        this.disabled = true;
-        this.disabledButBright = true;
-      } else {
-        this.disabled = (disabled.toLowerCase() === 'true');
-      }
-
-      this.inputValue = this.value;
+      this.setOriginalValue();
+      this.$parent.$on('resetOriginalValue', this.setOriginalValue);
     },
     methods: {
       handleChange() {
         let updates = {
-          changed: (this.value !== this.inputValue),
+          changed: (this.inputValue !== this.originalValue),
           value: this.inputValue
         };
 
         this.$emit('changed', updates);
+      },
+      setOriginalValue() {
+        this.inputValue = this.value;
+        this.originalValue = this.value;
+        this.privateSetting = this.private;
       }
     }
   }
@@ -48,7 +65,7 @@
 
 <style>
   input:disabled.disabled-but-bright {
-    color: black;
+    color: var(--black);
     background: var(--white1);
   }
 </style>

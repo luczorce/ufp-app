@@ -3,7 +3,8 @@ label {
   display: block;
 }
 
-label p {
+.form-label {
+  display: flex;
   margin: 0 0 0.5em;
 }
 
@@ -15,7 +16,7 @@ textarea {
   display: block;
   width: 100%;
   background: var(--white1);
-  transition: all 0.2s ease-in-out;
+  transition: var(--generic-transition);
 }
 
 input:focus,
@@ -30,4 +31,21 @@ textarea:disabled {
   color: var(--black3);
   border: 1px var(--white1) solid;
   background: var(--white-enuff);
+}
+
+.input-text--mimic,
+.textarea--mimic {
+  border: 1px var(--white3) solid;
+  padding: 10px 5px;
+  transition: var(--generic-transition);
+  margin-top: 0;
+}
+
+.input-text--mimic:empty,
+.textarea--mimic:empty {
+  padding: 19px 5px;
+}
+
+.textarea--mimic {
+  padding-left: 25px;
 }
