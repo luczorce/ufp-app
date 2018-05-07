@@ -10,6 +10,7 @@ This is a component for a text `input` element, wrapped within a label. The foll
 | `state` | Number | whether or not we are in edit mode(0) or viewing privacy mode, public (1) or private (2) |
 | `disabled` | Boolean | setting for disabled state |
 | `bright-disabled` | Boolean | rendering for disabled state |
+| `private` | Boolean | whether or not the data is private |
 
 ### Disabled Options
 

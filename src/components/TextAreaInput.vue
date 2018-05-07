@@ -1,19 +1,25 @@
 <template>
   <label>
-    <p>{{label}}</p>
+    <p class="form-label">
+      <span>{{label}}</span>
+      <privacy-label v-bind:private="privateSetting" v-show="state > 0" />
+    </p>
+
     <textarea v-bind:name="name" 
               v-model="inputValue"
               v-bind:disabled="disabled"
               v-on:input="handleChange"
               v-show="state === 0"></textarea>
 
-    <ul class="textarea--mimic" v-show="state > 0">
+    <ul class="textarea--mimic" v-show="state > 0" v-bind:class="{'public-content': (!privateSetting), 'private-content': (privateSetting)}">
       <li v-for="item of getValuesAsArray()">{{item}}</li>
     </ul>
   </label>
 </template>
 
 <script>
+  import PrivacyLabel from '@/components/PrivacyLabel.vue';
+
   export default {
     name: 'IdTextarea',
     props: {
@@ -21,14 +27,17 @@
       name: String,
       value: String,
       state: Number,
-      disabled: Boolean
+      disabled: Boolean,
+      private: Boolean
     },
     data: function() {
       return {
         originalValue: null,
-        inputValue: null
+        inputValue: null,
+        privateSetting: null
       }
     },
+    components: { PrivacyLabel },
     created() {
       this.setOriginalValue();
       this.$parent.$on('resetOriginalValue', this.setOriginalValue);
@@ -59,6 +68,7 @@
       setOriginalValue() {
         this.inputValue = this.value;
         this.originalValue = this.value;
+        this.privateSetting = this.private;
       }
     }
   }

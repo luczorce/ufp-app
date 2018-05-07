@@ -3,7 +3,8 @@ label {
   display: block;
 }
 
-label p {
+.form-label {
+  display: flex;
   margin: 0 0 0.5em;
 }
 
@@ -36,9 +37,8 @@ textarea:disabled {
 .textarea--mimic {
   border: 1px var(--white3) solid;
   padding: 10px 5px;
-  background: var(--white-enuff);
   transition: var(--generic-transition);
-  color: var(--black);
+  margin-top: 0;
 }
 
 .input-text--mimic:empty,

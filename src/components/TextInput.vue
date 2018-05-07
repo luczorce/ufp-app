@@ -1,6 +1,9 @@
 <template>
   <label>
-    <p>{{label}}</p>
+    <p class="form-label">
+      <span>{{label}}</span>
+      <privacy-label v-bind:private="privateSetting" v-show="state > 0" />
+    </p>
     
     <input type="text" 
            v-bind:name="name" 
@@ -10,11 +13,15 @@
            v-on:input="handleChange"
            v-show="state === 0">
 
-    <p class="input-text--mimic" v-show="state > 0">{{inputValue}}</p>
+    <p class="input-text--mimic"
+       v-show="state > 0"
+       v-bind:class="{'public-content': (!privateSetting), 'private-content': (privateSetting)}">{{inputValue}}</p>
   </label>
 </template>
 
 <script>
+  import PrivacyLabel from '@/components/PrivacyLabel.vue';
+
   export default {
     name: 'IdInput',
     props: {
@@ -23,14 +30,17 @@
       value: String,
       state: Number,
       disabled: Boolean,
-      brightDisabled: Boolean
+      brightDisabled: Boolean,
+      private: Boolean
     },
     data: function() {
       return {
         originalValue: null,
-        inputValue: null
+        inputValue: null,
+        privateSetting: null
       }
     },
+    components: { PrivacyLabel },
     created() {
       this.setOriginalValue();
       this.$parent.$on('resetOriginalValue', this.setOriginalValue);
@@ -47,6 +57,7 @@
       setOriginalValue() {
         this.inputValue = this.value;
         this.originalValue = this.value;
+        this.privateSetting = this.private;
       }
     }
   }

@@ -6,35 +6,38 @@
         <section class="id-section">
           <h2>Names</h2>
           
-          <id-input label="first name" name="firstName" v-bind:value="firstName" disabled bright-disabled v-bind:state="currentView" />
-          <id-input label="last name" name="lastName" v-bind:value="lastName" disabled bright-disabled v-bind:state="currentView"/>
+          <id-input label="first name" name="firstName" v-bind:value="valueData.firstName" disabled bright-disabled v-bind:state="currentView" v-bind:private="true" />
+          <id-input label="last name" name="lastName" v-bind:value="valueData.lastName" disabled bright-disabled v-bind:state="currentView" v-bind:private="true" />
         </section>
 
         <section class="id-section">
           <h2>Location</h2>
 
-          <id-input label="city" name="city" :value="city" 
+          <id-input label="city" name="city" :value="valueData.city" 
                     v-on:changed="(data) => {handleUpdateValue('city', data)}" 
                     v-bind:disabled="viewingDataPrivacy"
                     bright-disabled 
-                    v-bind:state="currentView"/>
-          <id-input label="state/provence" name="state" :value="state" 
+                    v-bind:state="currentView"
+                    v-bind:private="privacyData.city" />
+          <id-input label="state/provence" name="state" :value="valueData.state" 
                     v-on:changed="(data) => {handleUpdateValue('state', data)}" 
                     v-bind:disabled="viewingDataPrivacy"
                     bright-disabled 
-                    v-bind:state="currentView"/>
-          <id-input label="country" name="country" :value="country" 
+                    v-bind:state="currentView"
+                    v-bind:private="privacyData.state" />
+          <id-input label="country" name="country" :value="valueData.country" 
                     v-on:changed="(data) => {handleUpdateValue('country', data)}" 
                     v-bind:disabled="viewingDataPrivacy"
                     bright-disabled 
-                    v-bind:state="currentView"/>
+                    v-bind:state="currentView"
+                    v-bind:private="privacyData.country" />
         </section>
 
         <section class="id-section">
           <h2>Interests</h2>
 
-          <id-textarea label="hobbies" name="hobbies" :value="hobbies" v-on:changed="(data) => {handleUpdateValue('hobbies', data)}" v-bind:disabled="viewingDataPrivacy" v-bind:state="currentView" />
-          <id-textarea label="causes" name="causes" :value="causes" v-on:changed="(data) => {handleUpdateValue('causes', data)}" v-bind:disabled="viewingDataPrivacy" v-bind:state="currentView" />
+          <id-textarea label="hobbies" name="hobbies" :value="valueData.hobbies" v-on:changed="(data) => {handleUpdateValue('hobbies', data)}" v-bind:disabled="viewingDataPrivacy" v-bind:state="currentView" v-bind:private="privacyData.hobbies" />
+          <id-textarea label="causes" name="causes" :value="valueData.causes" v-on:changed="(data) => {handleUpdateValue('causes', data)}" v-bind:disabled="viewingDataPrivacy" v-bind:state="currentView" v-bind:private="privacyData.causes" />
         </section>
       </form>
     </div>
@@ -85,13 +88,22 @@
     components: { IdInput, IdTextarea },
     data: function() {
       return {
-        firstName: null,
-        lastName: null,
-        city: null,
-        state: null,
-        country: null,
-        hobbies: null,
-        causes: null,
+        valueData: {
+          firstName: null,
+          lastName: null,
+          city: null,
+          state: null,
+          country: null,
+          hobbies: null,
+          causes: null,
+        },
+        privacyData: {
+          city: null,
+          state: null,
+          country: null,
+          hobbies: null,
+          causes: null,
+        },
 
         viewingDataPrivacy: false,
         currentView: 0,
@@ -136,14 +148,20 @@
         localStorage.init();
         data = localStorage.get();
         // TODO these should come from the uPort profile
-        this.firstName = data.firstName;
-        this.lastName = data.lastName;
+        this.valueData.firstName = data.firstName;
+        this.valueData.lastName = data.lastName;
 
-        this.city = data.city.value;
-        this.state = data.state.value;
-        this.country = data.country.value;
-        this.hobbies = data.hobbies.value.join(', ');
-        this.causes = data.causes.value.join(', ');
+        this.valueData.city = data.city.value;
+        this.valueData.state = data.state.value;
+        this.valueData.country = data.country.value;
+        this.valueData.hobbies = data.hobbies.value.join(', ');
+        this.valueData.causes = data.causes.value.join(', ');
+
+        this.privacyData.city = data.city.private;
+        this.privacyData.state = data.state.private;
+        this.privacyData.country = data.country.private;
+        this.privacyData.hobbies = data.hobbies.private;
+        this.privacyData.causes = data.causes.private;
       },
       resetComponentData() {
         this.$emit('resetOriginalValue');
@@ -197,9 +215,30 @@
 
   .identity-container.public-mode {}
 
+  .identity-container.public-mode .public-content {
+    background: var(--white-enuff);
+    color: var(--black);
+  }
+
+  .identity-container.public-mode .private-content {
+    background: var(--white2);
+    color: var(--white3);
+  }
+
   .identity-container.private-mode {
     background: var(--black2);
     color: var(--white2);
+  }
+
+  .identity-container.private-mode .public-content {
+    background: var(--black2);
+    color: var(--black3);
+    border-color: var(--black3);
+  }
+
+  .identity-container.private-mode .private-content {
+    background: var(--black4);
+    color: var(--white-enuff);
   }
 
   .form-container {
