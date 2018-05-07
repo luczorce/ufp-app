@@ -2,7 +2,7 @@
   <label>
     <p class="form-label" v-on:click="handlePrivacyUpdate">
       <span>{{label}}</span>
-      <privacy-label v-bind:private="privateSetting" v-show="state > 0" />
+      <privacy-label v-bind:private="privateSetting" v-show="state > 0" v-bind:permanent="brightDisabled" />
     </p>
     
     <input type="text" 

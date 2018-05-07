@@ -16,22 +16,16 @@
           <id-input label="city" name="city" :value="valueData.city" 
                     v-on:changed="(data) => {handleUpdateValue('city', data)}" 
                     v-on:privacy-change="(data) => {handleUpdatePrivacy('city', data)}" 
-                    v-bind:disabled="viewingDataPrivacy"
-                    bright-disabled 
                     v-bind:state="currentView"
                     v-bind:private="privacyData.city" />
           <id-input label="state/provence" name="state" :value="valueData.state" 
                     v-on:changed="(data) => {handleUpdateValue('state', data)}" 
                     v-on:privacy-change="(data) => {handleUpdatePrivacy('state', data)}" 
-                    v-bind:disabled="viewingDataPrivacy"
-                    bright-disabled 
                     v-bind:state="currentView"
                     v-bind:private="privacyData.state" />
           <id-input label="country" name="country" :value="valueData.country" 
                     v-on:changed="(data) => {handleUpdateValue('country', data)}" 
                     v-on:privacy-change="(data) => {handleUpdatePrivacy('country', data)}" 
-                    v-bind:disabled="viewingDataPrivacy"
-                    bright-disabled 
                     v-bind:state="currentView"
                     v-bind:private="privacyData.country" />
         </section>
