@@ -15,7 +15,8 @@
 
     <p class="input-text--mimic"
        v-show="state > 0"
-       v-bind:class="{'public-content': (!privateSetting), 'private-content': (privateSetting)}">{{inputValue}}</p>
+       v-bind:class="{'public-content': (!privateSetting), 'private-content': (privateSetting)}"
+       v-on:click="handlePrivacyUpdate">{{inputValue}}</p>
   </label>
 </template>
 
@@ -53,6 +54,9 @@
         };
 
         this.$emit('changed', updates);
+      },
+      handlePrivacyUpdate() {
+        this.$emit('privacy-change', !this.privateSetting);
       },
       setOriginalValue() {
         this.inputValue = this.value;

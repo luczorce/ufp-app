@@ -15,18 +15,21 @@
 
           <id-input label="city" name="city" :value="valueData.city" 
                     v-on:changed="(data) => {handleUpdateValue('city', data)}" 
+                    v-on:privacy-change="(data) => {handleUpdatePrivacy('city', data)}" 
                     v-bind:disabled="viewingDataPrivacy"
                     bright-disabled 
                     v-bind:state="currentView"
                     v-bind:private="privacyData.city" />
           <id-input label="state/provence" name="state" :value="valueData.state" 
                     v-on:changed="(data) => {handleUpdateValue('state', data)}" 
+                    v-on:privacy-change="(data) => {handleUpdatePrivacy('state', data)}" 
                     v-bind:disabled="viewingDataPrivacy"
                     bright-disabled 
                     v-bind:state="currentView"
                     v-bind:private="privacyData.state" />
           <id-input label="country" name="country" :value="valueData.country" 
                     v-on:changed="(data) => {handleUpdateValue('country', data)}" 
+                    v-on:privacy-change="(data) => {handleUpdatePrivacy('country', data)}" 
                     v-bind:disabled="viewingDataPrivacy"
                     bright-disabled 
                     v-bind:state="currentView"
@@ -36,8 +39,8 @@
         <section class="id-section">
           <h2>Interests</h2>
 
-          <id-textarea label="hobbies" name="hobbies" :value="valueData.hobbies" v-on:changed="(data) => {handleUpdateValue('hobbies', data)}" v-bind:disabled="viewingDataPrivacy" v-bind:state="currentView" v-bind:private="privacyData.hobbies" />
-          <id-textarea label="causes" name="causes" :value="valueData.causes" v-on:changed="(data) => {handleUpdateValue('causes', data)}" v-bind:disabled="viewingDataPrivacy" v-bind:state="currentView" v-bind:private="privacyData.causes" />
+          <id-textarea label="hobbies" name="hobbies" :value="valueData.hobbies" v-on:changed="(data) => {handleUpdateValue('hobbies', data)}" v-on:privacy-change="(data) => {handleUpdatePrivacy('hobbies', data)}" v-bind:disabled="viewingDataPrivacy" v-bind:state="currentView" v-bind:private="privacyData.hobbies" />
+          <id-textarea label="causes" name="causes" :value="valueData.causes" v-on:changed="(data) => {handleUpdateValue('causes', data)}" v-on:privacy-change="(data) => {handleUpdatePrivacy('causes', data)}" v-bind:disabled="viewingDataPrivacy" v-bind:state="currentView" v-bind:private="privacyData.causes" />
         </section>
       </form>
     </div>
@@ -130,12 +133,18 @@
         let updates = Object.assign({}, data);
 
         keys.forEach((key) => {
+          updates[key].private = this.privacyData[key];
+
           if (this.trackedData[key].changed) {
             updates[key].value = this.trackedData[key].value;
           }
         });
 
         return updates;
+      },
+      handleUpdatePrivacy(which, isPrivate) {
+        this.privacyData[which] = isPrivate;
+        this.updateStorage();
       },
       handleUpdateValue(which, data) {
         this.trackedData[which] = {
