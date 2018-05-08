@@ -3,14 +3,14 @@
        v-bind:class="{'private-mode': currentView === 2, 'public-mode': currentView === 1}">
     <div class="form-container">
       <form class="identity-form" ref="identityForm">
-        <section class="id-section">
+        <section class="form-section">
           <h2>Names</h2>
           
           <id-input label="first name" name="firstName" v-bind:value="valueData.firstName" disabled bright-disabled v-bind:state="currentView" v-bind:private="true" />
           <id-input label="last name" name="lastName" v-bind:value="valueData.lastName" disabled bright-disabled v-bind:state="currentView" v-bind:private="true" />
         </section>
 
-        <section class="id-section">
+        <section class="form-section">
           <h2>Location</h2>
 
           <id-input label="city" name="city" :value="valueData.city" 
@@ -30,7 +30,7 @@
                     v-bind:private="privacyData.country" />
         </section>
 
-        <section class="id-section">
+        <section class="form-section">
           <h2>Interests</h2>
 
           <id-textarea label="hobbies" name="hobbies" :value="valueData.hobbies" v-on:changed="(data) => {handleUpdateValue('hobbies', data)}" v-on:privacy-change="(data) => {handleUpdatePrivacy('hobbies', data)}" v-bind:disabled="viewingDataPrivacy" v-bind:state="currentView" v-bind:private="privacyData.hobbies" />
@@ -257,29 +257,5 @@
     display: flex;
     justify-content: space-between;
     align-content: center;
-  }
-
-  .id-section {
-    margin: 0 auto 2em;
-    padding: 0 15px;
-  }
-
-  .id-button {
-    font-size: 1em;
-    font-family: var(--mono-font);
-    background: var(--white);
-    padding: 5px;
-    border: 1px var(--black2) solid;
-    transition: var(--generic-transition);
-  }
-
-  .id-button:focus {
-    background: var(--white1);
-    border-color: var(--pop3);
-    outline: none;
-  }
-
-  .id-button.active {
-    background: var(--pop1);
   }
 </style>

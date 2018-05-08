@@ -49,3 +49,8 @@ textarea:disabled {
 .textarea--mimic {
   padding-left: 25px;
 }
+
+.form-section {
+  margin: 0 auto 2em;
+  padding: 0 15px;
+}

@@ -1,0 +1,18 @@
+.id-button {
+  font-size: 1em;
+  font-family: var(--mono-font);
+  background: var(--white);
+  padding: 5px;
+  border: 1px var(--black2) solid;
+  transition: var(--generic-transition);
+}
+
+.id-button:focus {
+  background: var(--white1);
+  border-color: var(--pop3);
+  outline: none;
+}
+
+.id-button.active {
+  background: var(--pop1);
+}
