@@ -21,6 +21,7 @@
 </template>
 
 <script>
+  import Person from '@/models/person';
   import localStorage from '@/services/local-storage.js';
 
   export default {
@@ -33,7 +34,13 @@
     },
     methods: {
       submitNewUser() {
-        
+        let user = new Person(this.firstName, this.lastName);
+        // TODO get response from UFRequests
+        // const response = await axios({poi poi poi POST /signup})
+        // TODO update the user with the response
+        // user.initDevice(response)
+        // TODO save that user!
+        // localStorage.update(user);
       }
     }
   }

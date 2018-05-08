@@ -48,9 +48,8 @@ function init() {
 
 function updateStorage(updatedIdentityData) {
   if (!testLocalStorage()) return false;
-  
-  let clone = Object.assign({}, updatedIdentityData);
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(clone));
+
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedIdentityData));
 }
 
 //////
