@@ -4,6 +4,7 @@ let identityData;
 
 const LocalStorageService = {
   clear: clearLocalStorage,
+  exists: checkForExistingStorage,
   get: getIdentityInformation,
   init: init,
   update: updateStorage
@@ -12,6 +13,11 @@ const LocalStorageService = {
 export default LocalStorageService;
 
 //////
+
+function checkForExistingStorage() {
+  if (!testLocalStorage()) return false;
+  return Boolean(localStorage.getItem(LOCAL_STORAGE_KEY));
+}
 
 function clearLocalStorage() {
   if (testLocalStorage()) {
