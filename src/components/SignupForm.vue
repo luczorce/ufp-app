@@ -33,6 +33,7 @@
         lastName: null
       };
     },
+    // TODO add a created(), that checks for whether or not a user is registered on this device. warn them if so
     methods: {
       async submitNewUser() {
         let user = new Person(this.firstName, this.lastName);
@@ -41,7 +42,7 @@
           const response = await requestsProvider.signup();
           user.initDevice(response.deviceKey)
           localStorage.store(user);
-          // TODO take the user to a quick walkthrough?
+          this.$router.push({name: 'welcome'});
         } catch(error) {
           console.log(error);
           // TODO if can't get the deviceKey, then ask them to try again?
