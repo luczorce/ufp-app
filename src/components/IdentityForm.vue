@@ -6,35 +6,35 @@
         <section class="form-section">
           <h2>Names</h2>
           
-          <id-input label="first name" name="firstName" v-bind:value="valueData.firstName" disabled bright-disabled v-bind:state="currentView" v-bind:private="true" />
-          <id-input label="last name" name="lastName" v-bind:value="valueData.lastName" disabled bright-disabled v-bind:state="currentView" v-bind:private="true" />
+          <id-input label="first name" name="firstName" v-bind:value="person.firstName" disabled bright-disabled v-bind:state="currentView" v-bind:private="true" />
+          <id-input label="last name" name="lastName" v-bind:value="person.lastName" disabled bright-disabled v-bind:state="currentView" v-bind:private="true" />
         </section>
 
         <section class="form-section">
           <h2>Location</h2>
 
-          <id-input label="city" name="city" :value="valueData.city" 
+          <id-input label="city" name="city" :value="person.city.value" 
                     v-on:changed="(data) => {handleUpdateValue('city', data)}" 
                     v-on:privacy-change="(data) => {handleUpdatePrivacy('city', data)}" 
                     v-bind:state="currentView"
-                    v-bind:private="privacyData.city" />
-          <id-input label="state/provence" name="state" :value="valueData.state" 
+                    v-bind:private="person.city.private" />
+          <id-input label="state/provence" name="state" :value="person.state.value" 
                     v-on:changed="(data) => {handleUpdateValue('state', data)}" 
                     v-on:privacy-change="(data) => {handleUpdatePrivacy('state', data)}" 
                     v-bind:state="currentView"
-                    v-bind:private="privacyData.state" />
-          <id-input label="country" name="country" :value="valueData.country" 
+                    v-bind:private="person.state.private" />
+          <id-input label="country" name="country" :value="person.country.value" 
                     v-on:changed="(data) => {handleUpdateValue('country', data)}" 
                     v-on:privacy-change="(data) => {handleUpdatePrivacy('country', data)}" 
                     v-bind:state="currentView"
-                    v-bind:private="privacyData.country" />
+                    v-bind:private="person.country.private" />
         </section>
 
         <section class="form-section">
           <h2>Interests</h2>
 
-          <id-textarea label="hobbies" name="hobbies" :value="valueData.hobbies" v-on:changed="(data) => {handleUpdateValue('hobbies', data)}" v-on:privacy-change="(data) => {handleUpdatePrivacy('hobbies', data)}" v-bind:disabled="viewingDataPrivacy" v-bind:state="currentView" v-bind:private="privacyData.hobbies" />
-          <id-textarea label="causes" name="causes" :value="valueData.causes" v-on:changed="(data) => {handleUpdateValue('causes', data)}" v-on:privacy-change="(data) => {handleUpdatePrivacy('causes', data)}" v-bind:disabled="viewingDataPrivacy" v-bind:state="currentView" v-bind:private="privacyData.causes" />
+          <id-textarea label="hobbies" name="hobbies" :value="person.hobbies.value.join(',')" v-on:changed="(data) => {handleUpdateValue('hobbies', data)}" v-on:privacy-change="(data) => {handleUpdatePrivacy('hobbies', data)}" v-bind:disabled="viewingDataPrivacy" v-bind:state="currentView" v-bind:private="person.hobbies.private" />
+          <id-textarea label="causes" name="causes" :value="person.causes.value.join(',')" v-on:changed="(data) => {handleUpdateValue('causes', data)}" v-on:privacy-change="(data) => {handleUpdatePrivacy('causes', data)}" v-bind:disabled="viewingDataPrivacy" v-bind:state="currentView" v-bind:private="person.causes.private" />
         </section>
       </form>
     </div>
@@ -76,8 +76,8 @@
   import IdInput from '@/components/TextInput.vue';
   import IdTextarea from '@/components/TextAreaInput.vue';
   import localStorage from '@/services/local-storage.js';
+  import Person from '@/models/person.js';
 
-  let data;
   let keys = [ 'city', 'state', 'country', 'hobbies', 'causes' ];
 
   export default {
@@ -85,22 +85,7 @@
     components: { IdInput, IdTextarea },
     data: function() {
       return {
-        valueData: {
-          firstName: null,
-          lastName: null,
-          city: null,
-          state: null,
-          country: null,
-          hobbies: null,
-          causes: null,
-        },
-        privacyData: {
-          city: null,
-          state: null,
-          country: null,
-          hobbies: null,
-          causes: null,
-        },
+        person: null,
 
         viewingDataPrivacy: false,
         currentView: 0,
@@ -124,11 +109,9 @@
         this.viewingDataPrivacy = (viewIndex > 0);
       },
       getUpdatedValueData() {
-        let updates = Object.assign({}, data);
+        let updates = Object.assign({}, this.person);
 
         keys.forEach((key) => {
-          updates[key].private = this.privacyData[key];
-
           if (this.trackedData[key].changed) {
             updates[key].value = this.trackedData[key].value;
           }
@@ -137,7 +120,7 @@
         return updates;
       },
       handleUpdatePrivacy(which, isPrivate) {
-        this.privacyData[which] = isPrivate;
+        this.person[which].private = isPrivate;
         this.updateStorage();
       },
       handleUpdateValue(which, data) {
@@ -148,23 +131,12 @@
         this.shouldAllowUpdateValue();
       },
       initDataFromStorage() {
-        localStorage.init();
-        data = localStorage.get();
-        // TODO these should come from the uPort profile
-        this.valueData.firstName = data.firstName;
-        this.valueData.lastName = data.lastName;
-
-        this.valueData.city = data.city.value;
-        this.valueData.state = data.state.value;
-        this.valueData.country = data.country.value;
-        this.valueData.hobbies = data.hobbies.value.join(', ');
-        this.valueData.causes = data.causes.value.join(', ');
-
-        this.privacyData.city = data.city.private;
-        this.privacyData.state = data.state.private;
-        this.privacyData.country = data.country.private;
-        this.privacyData.hobbies = data.hobbies.private;
-        this.privacyData.causes = data.causes.private;
+        const data = localStorage.get();
+        let person = new Person(data.firstName, data.lastName);
+        delete data.firstName;
+        delete data.lastName;
+        person.populateAttributes(data);
+        this.person = person;
       },
       resetComponentData() {
         this.$emit('resetOriginalValue');
@@ -194,7 +166,7 @@
       },
       updateStorage() {
         let updates = this.getUpdatedValueData();
-        localStorage.update(updates);
+        localStorage.store(updates);
         
         // NOTE when in dount, setTimeout D:
         // this seemed to be almost a race condition... 

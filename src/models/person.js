@@ -17,4 +17,10 @@ export default class Person {
   initDevice(deviceKey) {
     this.deviceKey = deviceKey;
   }
+
+  populateAttributes(attrs) {
+    Object.keys(attrs).forEach((key) => {
+      this[key] = attrs[key];
+    });
+  }
 }
