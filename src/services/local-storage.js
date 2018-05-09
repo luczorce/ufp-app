@@ -1,13 +1,10 @@
-import defaultData from '@/mock/test-user-1.js';
 const LOCAL_STORAGE_KEY = 'ufp-individual-data';
-let identityData;
 
 const LocalStorageService = {
   clear: clearLocalStorage,
   exists: checkForExistingStorage,
   get: getIdentityInformation,
-  init: init,
-  update: updateStorage
+  store: updateStorage
 };
 
 export default LocalStorageService;
@@ -29,27 +26,17 @@ function clearLocalStorage() {
 }
 
 function getIdentityInformation() {
-  return identityData;
-}
-
-function init() {
-  if (!testLocalStorage()) return;
-  let store = localStorage.getItem(LOCAL_STORAGE_KEY);
-
-  if (store) {
-    identityData = JSON.parse(store);
-    return true;
-  } else {
-    identityData = Object.assign({}, defaultData);
-    this.update(identityData);
-    return false;
-  }
+  if (!testLocalStorage()) return false;
+  
+  const store = localStorage.getItem(LOCAL_STORAGE_KEY);
+  return JSON.parse(store);
 }
 
 function updateStorage(updatedIdentityData) {
   if (!testLocalStorage()) return false;
 
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedIdentityData));
+  const payload = JSON.stringify(updatedIdentityData);
+  localStorage.setItem(LOCAL_STORAGE_KEY, payload);
 }
 
 //////
