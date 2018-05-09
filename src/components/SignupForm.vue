@@ -23,6 +23,7 @@
 <script>
   import Person from '@/models/person';
   import localStorage from '@/services/local-storage.js';
+  import requestsProvider from '@/services/requests-provider.js';
 
   export default {
     name: 'Signupform',
@@ -33,14 +34,18 @@
       };
     },
     methods: {
-      submitNewUser() {
+      async submitNewUser() {
         let user = new Person(this.firstName, this.lastName);
-        // TODO get response from UFRequests
-        // const response = await axios({poi poi poi POST /signup})
-        // TODO update the user with the response
-        // user.initDevice(response)
-        // TODO save that user!
-        // localStorage.update(user);
+
+        try {
+          const response = await requestsProvider.signup();
+          user.initDevice(response.deviceKey)
+          localStorage.store(user);
+          // TODO take the user to a quick walkthrough?
+        } catch(error) {
+          console.log(error);
+          // TODO if can't get the deviceKey, then ask them to try again?
+        }
       }
     }
   }
