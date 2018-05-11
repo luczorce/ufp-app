@@ -6,7 +6,7 @@
     <span v-if="!private" class="private-icon">&#9900;</span>
     <span v-if="!private">public</span>
 
-    <span v-if="permanent"> | permanemt</span>
+    <span v-if="permanent"> | permanent</span>
   </span>
 </template>
 

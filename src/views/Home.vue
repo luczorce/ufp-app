@@ -53,7 +53,7 @@ export default {
     readRequestResults() {
       const matched = this.responses.filter(r => r.matched);
 
-      if (matched) {
+      if (matched.length) {
         this.hasNotification = true;
         this.matchCount = matched.length;
       }
