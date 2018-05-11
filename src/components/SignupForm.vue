@@ -40,7 +40,7 @@
 
         try {
           const response = await requestsProvider.signup();
-          user.initDevice(response.deviceKey)
+          user.initDevice(response.deviceKey);
           localStorage.store(user);
           this.$router.push({name: 'welcome'});
         } catch(error) {
