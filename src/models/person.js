@@ -23,4 +23,35 @@ export default class Person {
       this[key] = attrs[key];
     });
   }
+
+  get publicAttributes() {
+    let keys = [];
+
+    Object.keys(this).forEach((key) => {
+      const isAutoPrivate = typeof this[key] === 'string';
+      const isPrivate = (isAutoPrivate) ? false : this[key].private
+      
+      if (!isAutoPrivate && !isPrivate) {
+        keys.push(key);
+      }
+    });
+
+    return keys;
+  }
+
+  get privateAttributes() {
+    let keys = [];
+
+    Object.keys(this).forEach((key) => {
+      const isAutoPrivate = typeof this[key] === 'string';
+      const isPrivate = (isAutoPrivate) ? false : this[key].private
+      
+      // NOTE we don't want to consider the auto-private keys, like names
+      if (!isAutoPrivate && isPrivate) {
+        keys.push(key);
+      }
+    });
+
+    return keys;
+  }
 }

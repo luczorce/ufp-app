@@ -33,8 +33,8 @@
         <section class="form-section">
           <h2>Interests</h2>
 
-          <id-textarea label="hobbies" name="hobbies" :value="person.hobbies.value.join(',')" v-on:changed="(data) => {handleUpdateValue('hobbies', data)}" v-on:privacy-change="(data) => {handleUpdatePrivacy('hobbies', data)}" v-bind:disabled="viewingDataPrivacy" v-bind:state="currentView" v-bind:private="person.hobbies.private" />
-          <id-textarea label="causes" name="causes" :value="person.causes.value.join(',')" v-on:changed="(data) => {handleUpdateValue('causes', data)}" v-on:privacy-change="(data) => {handleUpdatePrivacy('causes', data)}" v-bind:disabled="viewingDataPrivacy" v-bind:state="currentView" v-bind:private="person.causes.private" />
+          <id-textarea label="hobbies" name="hobbies" :value="person.hobbies.value.join(', ')" v-on:changed="(data) => {handleUpdateValue('hobbies', data)}" v-on:privacy-change="(data) => {handleUpdatePrivacy('hobbies', data)}" v-bind:disabled="viewingDataPrivacy" v-bind:state="currentView" v-bind:private="person.hobbies.private" />
+          <id-textarea label="causes" name="causes" :value="person.causes.value.join(', ')" v-on:changed="(data) => {handleUpdateValue('causes', data)}" v-on:privacy-change="(data) => {handleUpdatePrivacy('causes', data)}" v-bind:disabled="viewingDataPrivacy" v-bind:state="currentView" v-bind:private="person.causes.private" />
         </section>
       </form>
     </div>
