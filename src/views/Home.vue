@@ -1,6 +1,6 @@
 <template>
   <div class="page home-page">
-    <identity-form />
+    <identity-form v-on:personData="updatePersonData" />
     
     <div class="notification" v-show="hasNotification" v-on:click="notifyUserOnMatch">
       {{matchCount}}!
@@ -22,25 +22,22 @@ export default {
     return {
       hasNotification: false,
       matchCount: null,
-      responses: null
+      responses: null,
+      person: null
     } 
-  },
-  created() {
-    this.getRequests();
   },
   methods: {
     async getRequests() {
       try {
-        const requestResult = await requestsProvider.getRequests();
+        const deviceKey = this.person.deviceKey;
+        const requestResult = await requestsProvider.getRequests(deviceKey);
         const requests = requestResult.data.requests;
         
         if (requests.length) {
           this.responses = matchMaker(requests);
-          // TODO make the responses to the service
           this.readRequestResults();
-
+          this.respondToRequests();
         }
-
       } catch (error) {
         console.log(error);
       }
@@ -57,6 +54,33 @@ export default {
         this.hasNotification = true;
         this.matchCount = matched.length;
       }
+    },
+    respondToRequests() {
+      const matched = this.responses.filter(r => r.matched);
+      if (!matched.length) return false;
+      
+      if (!this.person) {
+        console.log('waiting!');
+        window.setTimeout(this.respondToRequests, 200);
+      } else {
+        let allResponses = [];
+        matched.forEach((match) => {
+          allResponses.push(requestsProvider.sendResponse(match.requestKey, this.person.deviceKey));
+        });
+
+        Promise.all(allResponses)
+          .then(result => {
+            console.log('successful responses');
+            console.log(result);
+          }, error => {
+            console.log('not successful responses');
+            console.log(error);
+          });
+      }
+    },
+    updatePersonData(person) {
+      this.person = person;
+      this.getRequests();
     }
   }
 }

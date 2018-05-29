@@ -137,6 +137,9 @@
         delete data.lastName;
         person.populateAttributes(data);
         this.person = person;
+
+        // TODO this should go somewhere global, perhaps?
+        this.$emit('personData', person);
       },
       resetComponentData() {
         this.$emit('resetOriginalValue');
