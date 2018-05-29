@@ -3,6 +3,7 @@ const REQUESTS_URL = process.env.VUE_APP_REQUESTS_URL;
 
 const RequestsProvider = {
   getRequests: getAllRequests,
+  sendResponse: sendResponse,
   signup: signUpNewUser
 }
 
@@ -19,11 +20,31 @@ function getAllRequests() {
         if (response.status === 200) {
           resolve(response);
         } else {
-          reject(response)
+          reject(response);
         }
       })
       .catch(e => reject(e));
-  })
+  });
+}
+
+function sendResponse(requestKey, deviceKey) {
+  const url = `${REQUESTS_URL}/response`;
+  const body = {
+    deviceKey: deviceKey,
+    requestKey: requestKey
+  };
+
+  return new Promise((resolve, reject) => {
+    axios.post(url, body)
+      .then(response => {
+        if (response.status === 200) {
+          resolve(response);
+        } else {
+          reject(response);
+        }
+      })
+      .catch(e => reject(e));
+  });
 }
 
 function signUpNewUser() {
