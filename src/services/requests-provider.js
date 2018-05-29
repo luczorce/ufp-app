@@ -11,8 +11,12 @@ export default RequestsProvider;
 
 //////
 
-function getAllRequests() {
-  const url = `${REQUESTS_URL}/request`;
+function getAllRequests(optionalDeviceKey) {
+  let url = `${REQUESTS_URL}/request`;
+
+  if (optionalDeviceKey) {
+    url += `/${optionalDeviceKey}`;
+  }
 
   return new Promise((resolve, reject) => {
     axios.get(url)

@@ -26,13 +26,11 @@ export default {
       person: null
     } 
   },
-  created() {
-    this.getRequests();
-  },
   methods: {
     async getRequests() {
       try {
-        const requestResult = await requestsProvider.getRequests();
+        const deviceKey = this.person.deviceKey;
+        const requestResult = await requestsProvider.getRequests(deviceKey);
         const requests = requestResult.data.requests;
         
         if (requests.length) {
@@ -82,6 +80,7 @@ export default {
     },
     updatePersonData(person) {
       this.person = person;
+      this.getRequests();
     }
   }
 }
