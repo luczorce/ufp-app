@@ -22,8 +22,10 @@
           </header>
 
           <ul class="nav-links">
-            <li><router-link @click.native="closeMenu()" :to="{name: 'home'}">your data</router-link></li>
-            <li><router-link @click.native="closeMenu()" :to="{name: 'welcome'}">about and help</router-link></li>
+            <li><router-link @click.native="closeMenu()" :to="{name: 'home'}">Your Data</router-link></li>
+            <li><router-link @click.native="closeMenu()" :to="{name: 'welcome'}">About & Help</router-link></li>
+            <li><router-link @click.native="closeMenu()" :to="{name: 'dataImport'}">Data Import</router-link></li>
+            <li><router-link @click.native="closeMenu()" :to="{name: 'sharingReport'}">Sharing Report</router-link></li>
           </ul>
         </div>
       </nav>
