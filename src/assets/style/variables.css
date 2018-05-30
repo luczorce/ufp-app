@@ -20,4 +20,7 @@
   --pop3: #94C122;
 
   --generic-transition: all 0.2 ease-in-out;
+
+  --menu-height: 60px;
+  --id-footer-height: 70px;
 }

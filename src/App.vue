@@ -55,7 +55,9 @@
 </script>
 
 <style>
-  .nav {}
+  .nav {
+    height: var(--menu-height);
+  }
 
   .navbar-header {
     padding: 20px 10px;
