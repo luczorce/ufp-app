@@ -18,7 +18,5 @@ export default {
 </script>
 
 <style>
-  .welcome-page {
-    padding: 0 15px;
-  }
+
 </style>

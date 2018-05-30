@@ -1,7 +1,7 @@
 <template>
   <form class="signup-form" ref="signupform" v-on:submit.prevent="submitNewUser">
     <section class="form-section">
-      <h2>Sign up for UFP</h2>
+      <h2>Sign up for your Profile</h2>
       <p><em>Here is a faux-uport signup process</em></p>
       
       <label>
@@ -53,5 +53,4 @@
 </script>
 
 <style>
-  
 </style>

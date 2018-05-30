@@ -222,13 +222,14 @@
   .form-container {
     flex: 0 1 auto;
     overflow-y: auto;
-    height: calc(100vh - 70px);
+    height: calc(100vh - var(--id-footer-height) - var(--menu-height));
+    padding: 0 15px;
   }
 
   .identity-footer {
     border-top: 1px var(--black4) solid;
     padding: 10px;
-    height: 70px;
+    height: var(--id-footer-height);
     display: flex;
     justify-content: space-between;
     align-content: center;

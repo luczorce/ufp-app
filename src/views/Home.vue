@@ -89,6 +89,7 @@ export default {
 <style>
   .home-page {
     position: relative;
+    padding: 0;
   }
 
   .notification {
